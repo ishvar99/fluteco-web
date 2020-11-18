@@ -29,7 +29,7 @@ const Header = () => {
           className="p-3"
         >
           <Link to="/">
-            <Navbar.Brand>E-commerce Website</Navbar.Brand>
+            <Navbar.Brand>Fluteco</Navbar.Brand>
           </Link>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
