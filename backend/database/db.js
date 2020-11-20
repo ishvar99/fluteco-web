@@ -1,11 +1,11 @@
 const mongoose = require("mongoose")
 const {
-  data: { mongoDevelopmentURI, mongoProductionURI },
+  data: { mongoDevelopmentURI},
 } = require("../config/keys")
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(
-      process.env.mongoProductionURI || mongoProductionURI,
+      process.env.mongoProductionURI||mongoDevelopmentURI,
       {
         useNewUrlParser: true,
         useCreateIndex: true,

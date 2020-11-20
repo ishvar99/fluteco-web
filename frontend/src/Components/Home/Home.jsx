@@ -1,5 +1,7 @@
 import React, { Fragment } from "react"
 // import PropTypes from "prop-types"
+import {Row,Col} from 'react-bootstrap'
+import products from  '../../utils/products'
 import { useSelector } from "react-redux"
 const Home = (props) => {
   const auth = useSelector((state) => state.auth)
@@ -25,6 +27,14 @@ const Home = (props) => {
           </button>
         </div>
       ) : null}
+      <h3>Latest Products</h3>
+      <Row>
+        <Col sm={12} md={6} lg={4}>
+          {products.forEach((product)=>
+           <p>{product.name}</p> 
+          )}
+        </Col>
+      </Row>
     </>
   )
 }

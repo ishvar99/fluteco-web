@@ -1,13 +1,30 @@
+* {
+  font-family: "Roboto", sans-serif;
+}
 body {
   box-sizing: border-box;
   margin: 0;
 }
 $text-heading: black;
 $outline-color: darkblue;
+
 $button-color: darkblue;
 $btn-text-color: white;
 $error-danger: #d9534f;
 $success-color: #28a745;
+$navbar-color: #ff7043;
+.color-nav {
+  background-color: $navbar-color;
+  font-size: 16px;
+  font-weight: bold;
+}
+.brand-size {
+  font-size: 28px !important;
+}
+.nav-link {
+  color: white !important;
+  font-weight: 500;
+}
 .Form {
   position: relative;
   display: flex;

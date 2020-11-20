@@ -6,7 +6,7 @@ const crypto = require("crypto")
 const sgMail = require("@sendgrid/mail")
 const _ = require("lodash")
 const { sendEmail } = require("../utils/sendEmail")
-require("../services/cache")
+// require("../services/cache")
 const {
   data: {
     JWT_COOKIE_EXPIRE,
