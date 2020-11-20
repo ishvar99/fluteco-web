@@ -18,6 +18,9 @@ $navbar-color: #ff7043;
   font-size: 16px;
   font-weight: bold;
 }
+.btn-block:focus {
+  outline: none !important;
+}
 .brand-size {
   font-size: 28px !important;
 }
