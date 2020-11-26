@@ -11,10 +11,13 @@ const ProductDetails = ({match}) => {
  useEffect(() => {
   const fetchProduct=async ()=>{
    setLoading(true)
+   try{
    const {data} =await axios.get(`/api/v1/products/${match.params.id}`)
-   console.log(data)
    setLoading(false)
    setProduct(data)
+   }catch(error){
+    // setLoading(false)
+   }
   }
   fetchProduct();
  }, [])

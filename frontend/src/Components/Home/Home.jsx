@@ -1,21 +1,19 @@
 import React, { useState,useEffect} from "react"
 // import PropTypes from "prop-types"
 import {Row,Col,Container} from 'react-bootstrap'
-import axios from 'axios';
 import Product from '../Product/Product'
-import { useSelector } from "react-redux"
+import { useSelector,useDispatch } from "react-redux"
 import Loader from "../Loader/Loader";
+import {fetchProducts} from '../../redux/actions/productActions'
 const Home = () => {
-  const [products, setProducts] = useState([])
-  const [loading ,setLoading]=useState(false)
+  const Products = useSelector((state) => state.products)
+  const { loading,products } = Products;
+  const dispatch = useDispatch();
   useEffect(() => {
-    const fetchProducts=async ()=>{
-      setLoading(true)
-     const {data}= await axios.get('/api/v1/products')
-     setLoading(false)
-     setProducts(data)
+    async function getProducts() {
+      await dispatch(fetchProducts())
     }
-    fetchProducts()
+    getProducts()
   }, [])
   const auth = useSelector((state) => state.auth)
   const { user } = auth
