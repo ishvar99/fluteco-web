@@ -14,7 +14,7 @@ if (!process.env.NODE_ENV === "production") {
   app.use(morgan("dev"))
 }
 const authRoutes = require("../routes/auth")
-
+const productRoutes=require('../routes/products')
 const connectDB = require("../database/db")
 //connect to database
 connectDB()
@@ -27,7 +27,7 @@ app.use(cookieParser())
 
 // routes middlewares
 app.use("/api/v1/auth", authRoutes)
-
+app.use('/api/v1/products',productRoutes)
 // custom error handler
 app.use(errorHandler)
 

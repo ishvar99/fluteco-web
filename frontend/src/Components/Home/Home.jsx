@@ -1,10 +1,19 @@
-import React, { Fragment } from "react"
+import React, { useState,useEffect} from "react"
 // import PropTypes from "prop-types"
 import {Row,Col,Container} from 'react-bootstrap'
-import products from '../../utils/products'
+import axios from 'axios';
 import Product from '../Product/Product'
 import { useSelector } from "react-redux"
 const Home = () => {
+  const [products, setProducts] = useState([])
+  useEffect(() => {
+    const fetchProducts=async ()=>{
+     const {data}= await axios.get('/api/v1/products')
+     
+     setProducts(data)
+    }
+    fetchProducts()
+  }, [])
   const auth = useSelector((state) => state.auth)
   const { user } = auth
   return (
