@@ -4,12 +4,16 @@ import {Link} from 'react-router-dom'
 import Rating from '../Rating/Rating'
 import '../../App.scss'
 import {Row,Col,Image,Card, ListGroup,Container} from 'react-bootstrap'
+import Loader from '../Loader/Loader';
 const ProductDetails = ({match}) => {
  const [product, setProduct] = useState({})
+ const [loading,setLoading]=useState(false)
  useEffect(() => {
   const fetchProduct=async ()=>{
+   setLoading(true)
    const {data} =await axios.get(`/api/v1/products/${match.params.id}`)
    console.log(data)
+   setLoading(false)
    setProduct(data)
   }
   fetchProduct();
@@ -19,6 +23,7 @@ const ProductDetails = ({match}) => {
   <Link className='btn btn-light my-3' to='/'>
    Go Back
   </Link>
+  {loading?<Loader/>:
   <Row>
   <Col md={6}>
   <Image src={product.image} alt={product.name} fluid/>
@@ -70,6 +75,7 @@ const ProductDetails = ({match}) => {
   </Card>
  </Col>
   </Row>
+  }
   </Container>
  )
 }
