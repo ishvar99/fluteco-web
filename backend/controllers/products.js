@@ -1,9 +1,9 @@
-const products=require('../data/products')
-
-exports.getProducts=(req,res)=>{
+const Product=require('../models/product')
+exports.getProducts=async (req,res)=>{
+ const products=await Product.find({})
  res.json(products)
 }
-exports.getProduct=(req,res)=>{
- const product =products.find(p=>p._id===req.params.id);
- res.json(product);
+exports.getProduct=async (req,res)=>{
+ const product=await Product.findById(req.params.id)
+ res.json(product)
 }

@@ -3,6 +3,7 @@ const {
   data: { mongoDevelopmentURI},
 } = require("../config/keys")
 const connectDB = async () => {
+  console.log(mongoDevelopmentURI)
   try {
     const conn = await mongoose.connect(
       process.env.mongoProductionURI||mongoDevelopmentURI,

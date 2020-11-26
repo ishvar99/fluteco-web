@@ -4,12 +4,15 @@ import {Row,Col,Container} from 'react-bootstrap'
 import axios from 'axios';
 import Product from '../Product/Product'
 import { useSelector } from "react-redux"
+import Loader from "../Loader/Loader";
 const Home = () => {
   const [products, setProducts] = useState([])
+  const [loading ,setLoading]=useState(false)
   useEffect(() => {
     const fetchProducts=async ()=>{
+      setLoading(true)
      const {data}= await axios.get('/api/v1/products')
-     
+     setLoading(false)
      setProducts(data)
     }
     fetchProducts()
@@ -39,13 +42,14 @@ const Home = () => {
       ) : null}
       <Container>
       <h3>Latest Products</h3>
-      <Row>
+      {loading?<Loader/>: <Row>
       {products.map((product)=>
         <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
           <Product product={product}></Product>
         </Col>
       )}
       </Row>
+      }
       </Container>
     </>
   )
