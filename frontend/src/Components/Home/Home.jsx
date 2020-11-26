@@ -5,9 +5,10 @@ import Product from '../Product/Product'
 import { useSelector,useDispatch } from "react-redux"
 import Loader from "../Loader/Loader";
 import {fetchProducts} from '../../redux/actions/productActions'
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 const Home = () => {
   const Products = useSelector((state) => state.products)
-  const { loading,products } = Products;
+  const { loading,products,error } = Products;
   const dispatch = useDispatch();
   useEffect(() => {
     async function getProducts() {
@@ -40,7 +41,7 @@ const Home = () => {
       ) : null}
       <Container>
       <h3>Latest Products</h3>
-      {loading?<Loader/>: <Row>
+      {loading?<Loader/>:error!=''?(<ErrorMessage variant="danger">{error}</ErrorMessage>):<Row>
       {products.map((product)=>
         <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
           <Product product={product}></Product>

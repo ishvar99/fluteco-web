@@ -1,25 +1,22 @@
-import React,{useState,useEffect} from 'react'
-import axios from 'axios';
+import React,{useEffect} from 'react'
+import {useDispatch,useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
 import Rating from '../Rating/Rating'
 import '../../App.scss'
 import {Row,Col,Image,Card, ListGroup,Container} from 'react-bootstrap'
 import Loader from '../Loader/Loader';
+import {fetchProduct} from '../../redux/actions/productActions'
 const ProductDetails = ({match}) => {
- const [product, setProduct] = useState({})
- const [loading,setLoading]=useState(false)
+ const dispatch = useDispatch()
+ const Products =useSelector(state=>state.products);
+ const {product,loading} =Products;
  useEffect(() => {
-  const fetchProduct=async ()=>{
-   setLoading(true)
-   try{
-   const {data} =await axios.get(`/api/v1/products/${match.params.id}`)
-   setLoading(false)
-   setProduct(data)
-   }catch(error){
-    // setLoading(false)
-   }
+  console.log('Ishan is gr8')
+  async function getProduct(){
+  await dispatch(fetchProduct(match.params.id))
   }
-  fetchProduct();
+  getProduct();
+  console.log(product)
  }, [])
  return (
   <Container>
