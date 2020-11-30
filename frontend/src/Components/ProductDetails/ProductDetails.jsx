@@ -1,17 +1,21 @@
-import React,{useEffect} from 'react'
+import React,{useEffect,useState} from 'react'
 import {useDispatch,useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
 import Rating from '../Rating/Rating'
 import '../../App.scss'
-import {Row,Col,Image,Card, ListGroup,Container} from 'react-bootstrap'
+import {Row,Col,Image,Card, ListGroup,Container,Form} from 'react-bootstrap'
 import Loader from '../Loader/Loader';
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import {fetchProduct} from '../../redux/actions/productActions'
-const ProductDetails = ({match}) => {
+const ProductDetails = ({match,history}) => {
  const dispatch = useDispatch()
  const Products =useSelector(state=>state.products);
- const {product,loading} =Products;
+ const [qty, setQty] = useState(1)
+ const {product,loading,error} =Products;
+ const addToCart=()=>{
+  history.push(`/cart/${match.params.id}?qty=${qty}`)
+ }
  useEffect(() => {
-  console.log('Ishan is gr8')
   async function getProduct(){
   await dispatch(fetchProduct(match.params.id))
   }
@@ -23,7 +27,7 @@ const ProductDetails = ({match}) => {
   <Link className='btn btn-light my-3' to='/'>
    Go Back
   </Link>
-  {loading?<Loader/>:
+  {loading?<Loader/>:error?(<ErrorMessage variant="danger">{error}</ErrorMessage>):
   <Row>
   <Col md={6}>
   <Image src={product.image} alt={product.name} fluid/>
@@ -68,8 +72,26 @@ const ProductDetails = ({match}) => {
       </Col>
      </Row>
     </ListGroup.Item>
+    {
+     product.countInStock>0 &&(
+      <ListGroup.Item>
+     <Row>
+      <Col>
+       Qty:
+      </Col>
+      <Col>
+      <Form.Control as='select' value={qty} onChange={(e)=>setQty(e.target.value)} >
+       {[...Array(product.countInStock).keys()]
+       .map(v=><option key={v+1} value={v+1}>{v+1}</option>)
+       }
+      </Form.Control>
+      </Col>
+     </Row>
+    </ListGroup.Item>
+     )
+    }
     <ListGroup.Item>
-     <button className="btn-block p-2" style={{background:"#ff7043",fontSize:"18px",border:"none",color:"white"}} type="button">Add to Cart</button>
+     <button  disabled={product.countInStock === 0}  onClick={addToCart} className="btn-block p-2" style={{background:"#ff7043",fontSize:"18px",border:"none",color:"white"}} type="button">Add to Cart</button>
     </ListGroup.Item>
    </ListGroup>
   </Card>

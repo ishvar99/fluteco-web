@@ -2,7 +2,7 @@ const asyncHandler = require('../middlewares/asyncHandler')
 const Product=require('../models/product')
 exports.getProducts=asyncHandler(async (req,res)=>{
  const products=await Product.find({})
- throw new Error('some error')
+ // throw new Error('some error')
  res.json(products)
 })
 exports.getProduct=asyncHandler(async(req,res)=>{
