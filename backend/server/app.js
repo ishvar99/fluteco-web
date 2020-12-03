@@ -15,6 +15,7 @@ if (!process.env.NODE_ENV === "production") {
 }
 const authRoutes = require("../routes/auth")
 const productRoutes=require('../routes/products')
+const cartRoutes=require('../routes/cart')
 const connectDB = require("../database/db")
 //connect to database
 connectDB()
@@ -28,6 +29,7 @@ app.use(cookieParser())
 // routes middlewares
 app.use("/api/v1/auth", authRoutes)
 app.use('/api/v1/products',productRoutes)
+app.use('/api/v1/cart',cartRoutes)
 // custom error handler
 app.use(errorHandler)
 
