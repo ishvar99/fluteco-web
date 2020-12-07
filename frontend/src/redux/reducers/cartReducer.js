@@ -1,18 +1,49 @@
 import {
- SET_LOADING,
+ SET_CART_LOADING,
+ FETCH_CART_FAIL,
+ FETCH_CART_SUCCESS,
+ ADD_TO_CART_FAIL,
+ ADD_TO_CART_SUCCESS
 } from "../actions/types"
 const initialState = {
- loading: false,
+ cartLoading: false,
  cart:[],
- error:''
+ cartError:'',
 }
 export default (state = initialState, action) => {
  switch (action.type) {
-   case SET_LOADING: {
+   case SET_CART_LOADING: {
      return {
        ...state,
-       loading: true,
+       cartLoading: true,
      }
+   }
+   case ADD_TO_CART_SUCCESS:{
+    return {
+      ...state,
+      cartLoading:false,
+    }
+   }
+   case ADD_TO_CART_FAIL:{
+    return {
+      ...state,
+      cartLoading:false,
+      cartError:action.payload
+    }
+   }
+   case FETCH_CART_SUCCESS:{
+    return {
+      ...state,
+      cartLoading:false,
+      cart:action.payload
+    }
+   }
+   case FETCH_CART_FAIL:{
+    return {
+      ...state,
+      cartLoading:false,
+      cartError:action.payload
+    }
    }
    default:
      return state

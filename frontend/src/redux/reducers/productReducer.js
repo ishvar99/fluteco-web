@@ -3,27 +3,27 @@ import {
  FETCH_PRODUCTS_FAIL,
  FETCH_PRODUCT_SUCCESS,
  FETCH_PRODUCT_FAIL,
- SET_LOADING,
+ SET_AUTH_LOADING,
 } from "../actions/types"
 const initialState = {
- loading: false,
+ authLoading: false,
  products:[],
  product:{},
  error:''
 }
 export default (state = initialState, action) => {
  switch (action.type) {
-   case SET_LOADING: {
+   case SET_AUTH_LOADING: {
      return {
        ...state,
-       loading: true,
+       authLoading: true,
      }
    }
    case FETCH_PRODUCTS_SUCCESS:
     {
     return {
      ...state,
-     loading:false,
+     authLoading:false,
      products:action.payload,
     }
    }
@@ -32,7 +32,7 @@ export default (state = initialState, action) => {
      console.log(action.payload);
     return {
      ...state,
-     loading:false,
+     authLoading:false,
      product:action.payload,
     }
    }
@@ -41,7 +41,7 @@ export default (state = initialState, action) => {
       console.log(action.payload)
     return {
      ...state,
-     loading:false,
+     authLoading:false,
      error:action.payload
     }
    }

@@ -7,13 +7,18 @@ import {Row,Col,Image,Card, ListGroup,Container,Form} from 'react-bootstrap'
 import Loader from '../Loader/Loader';
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import {fetchProduct} from '../../redux/actions/productActions'
+import {addProductToCart} from '../../redux/actions/cartActions'
 const ProductDetails = ({match,history}) => {
  const dispatch = useDispatch()
  const Products =useSelector(state=>state.products);
+ const Cart= useSelector(state=>state.cart)
  const [qty, setQty] = useState(1)
- const {product,loading,error} =Products;
- const addToCart=()=>{
-  history.push(`/cart/${match.params.id}?qty=${qty}`)
+ const {product,authLoading,error} =Products;
+ const {cartLoading,cartError}=Cart;
+ const addToCart=async()=>{
+  await dispatch(addProductToCart(match.params.id,qty));
+
+  history.push(`/cart`)
  }
  useEffect(() => {
   async function getProduct(){
@@ -21,13 +26,15 @@ const ProductDetails = ({match,history}) => {
   }
   getProduct();
   console.log(product)
- }, [])
+ }, [cartError])
  return (
+  <>
   <Container>
   <Link className='btn btn-light my-3' to='/'>
    Go Back
   </Link>
-  {loading?<Loader/>:error?(<ErrorMessage variant="danger">{error}</ErrorMessage>):
+  {cartLoading?<Loader/>:cartError?(<ErrorMessage variant="danger">{cartError}</ErrorMessage>):null}
+  {authLoading?<Loader/>:error?(<ErrorMessage variant="danger">{error}</ErrorMessage>):
   <Row>
   <Col md={6}>
   <Image src={product.image} alt={product.name} fluid/>
@@ -99,6 +106,7 @@ const ProductDetails = ({match,history}) => {
   </Row>
   }
   </Container>
+  </>
  )
 }
 

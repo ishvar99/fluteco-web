@@ -10,7 +10,7 @@ import '../../App.scss';
 const Header = () => {
   const auth = useSelector((state) => state.auth)
   const dispatch = useDispatch()
-  const { loading, user, isAuthenticated } = auth
+  const { authLoading, user, isAuthenticated } = auth
   useEffect(() => {
     async function fetchUser() {
       await dispatch(LoadUser())
@@ -20,10 +20,10 @@ const Header = () => {
   }, [])
   return (
     <>
-      {loading ? <Backdrop /> : null}
-      <div className="Header">
+      {authLoading ? <Backdrop /> : null}
+      <div className="Header" style={{marginBottom:"65px"}}>
         <Navbar
-        
+        fixed="top"
           collapseOnSelect
           expand="lg"
           variant="dark"

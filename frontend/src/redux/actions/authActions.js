@@ -1,7 +1,7 @@
 import {
   LOGIN_SUCCESS,
   REGISTER_SUCCESS,
-  SET_LOADING,
+  SET_AUTH_LOADING,
   LOGIN_FAIL,
   REGISTER_FAIL,
   LOGOUT,
@@ -124,7 +124,7 @@ export const ResetPasswordAction = (token, formData, isAuthenticated) => {
 export const SetLoading = () => {
   return async (dispatch) => {
     dispatch({
-      type: SET_LOADING,
+      type: SET_AUTH_LOADING,
       payload: true,
     })
   }

@@ -1,7 +1,7 @@
 import {
   LOGIN_SUCCESS,
   REGISTER_SUCCESS,
-  SET_LOADING,
+  SET_AUTH_LOADING,
   LOGIN_FAIL,
   REGISTER_FAIL,
   USER_LOADED,
@@ -15,7 +15,7 @@ import {
   CLEAR_MESSAGE,
 } from "../actions/types"
 const initialState = {
-  loading: false,
+  authLoading: false,
   error: null,
   isAuthenticated: false,
   message: null,
@@ -27,15 +27,15 @@ export default (state = initialState, action) => {
     case LOGIN_SUCCESS: {
       return {
         ...state,
-        loading: false,
+        authLoading: false,
         isAuthenticated: true,
         error: null,
       }
     }
-    case SET_LOADING: {
+    case SET_AUTH_LOADING: {
       return {
         ...state,
-        loading: action.payload,
+        authLoading: action.payload,
       }
     }
     case REGISTER_FAIL:
@@ -44,7 +44,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         error: action.payload || "Server Error",
-        loading: false,
+        authLoading: false,
         user: null,
       }
     }
@@ -52,7 +52,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         user: action.payload.data,
-        loading: false,
+        authLoading: false,
         isAuthenticated: true,
         error: null,
       }
@@ -61,7 +61,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isAuthenticated: false,
-        loading: false,
+        authLoading: false,
         user: null,
       }
     }
@@ -70,7 +70,7 @@ export default (state = initialState, action) => {
       console.log(action.payload)
       return {
         ...state,
-        loading: false,
+        authLoading: false,
         message: action.payload,
       }
     }
@@ -79,7 +79,7 @@ export default (state = initialState, action) => {
     case RESET_PASSWORD_ERROR: {
       return {
         ...state,
-        loading: false,
+        authLoading: false,
         message: action.payload,
       }
     }
