@@ -3,6 +3,7 @@ import {useDispatch,useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
 import '../../App.scss'
 import {fetchCart} from '../../redux/actions/cartActions'
+import Loader from '../../Components/Loader/Loader'
 import {Row,Col,Image,Card, ListGroup,Form,Button} from 'react-bootstrap'
 const Cart = () => {
  const dispatch = useDispatch()
@@ -17,6 +18,12 @@ const Cart = () => {
   getCart();
  }, [])
  return (
+   <>
+  {
+    cartLoading?
+    <div>
+      <Loader/>
+    </div>:
    <div style={{margin:"5% 10%"}}>
   <Row className='d-flex justify-content-around'>
       <Col md={cart.length===0?12:7}>
@@ -54,9 +61,9 @@ const Cart = () => {
                     <Image src={item.product.image} alt={item.product.name} fluid rounded />
                   </Col>
                   <Col md={3} className='my-2'>
-                    <Link style={{textDecoration:"none",color:"#007185",fontWeight:"500"}} to={`/product/${item.product._id}`}>{item.product.name}</Link>
+                    <Link style={{textDecoration:"none",color:"black",fontWeight:"500"}} to={`/product/${item.product._id}`}>{item.product.name}</Link>
                   </Col>
-                  <Col md={2} className='my-2'><p style={{fontWeight:"500"}}>₹ {item.product.price.toLocaleString()}</p></Col>
+                  <Col md={2} className='my-2'><p style={{fontWeight:"500",color:"#007185"}}>₹ {item.product.price.toLocaleString()}</p></Col>
                   <Col md={2} className='my-2'>
                     <Form.Control
                      as='select'
@@ -66,20 +73,22 @@ const Cart = () => {
                       } 
                       }
                     >
+                    
                       {[...Array(item.product.countInStock).keys()].map((x) => (
                         <option key={x + 1} value={x + 1}>
                           {x + 1}
                         </option>
                       ))}
+                    
                     </Form.Control>
                   </Col>
-                  <Col md={2} className='my-2'>
+                  <Col md={2} className='mt-3'>
                     <Button
-                      className="remove p-0 m-0"
+                      className="p-0 m-0"
                      style={{background:"white",color:'red',border:'none'}}
                       onClick={() => console.log('Remove')}
                     >
-                     <p>REMOVE</p>
+                     <i className='fas fa-trash'></i>
                     </Button>
                   </Col>
                 </Row>
@@ -119,9 +128,9 @@ const Cart = () => {
               <Button
                 type='button'
                 className='btn-block'
-                style={{border:"none",background:"#ff7043"}}
+                style={{border:"none",fontSize:'16px',fontWeight:'500', background:"#ff7043",padding:'12px 20px'}}
               >
-                Proceed To Checkout
+                PROCEED TO CHECKOUT
               </Button>
             </ListGroup.Item>
           </ListGroup>
@@ -130,7 +139,9 @@ const Cart = () => {
       }
     </Row>
     </div>
- )
+  }
+  </>
+ );
 }
 
 export default Cart

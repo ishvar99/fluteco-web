@@ -22,7 +22,7 @@ const Home = () => {
     <>
       {user && !user.confirmed ? (
         <div
-          style={{ textAlign: "center" }}
+          style={{ textAlign: "center",border:'none'}}
           className="alert alert-warning alert-dismissible fade show"
           role="alert"
         >

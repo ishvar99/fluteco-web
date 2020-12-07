@@ -6,6 +6,7 @@ import '../../App.scss'
 import {Row,Col,Image,Card, ListGroup,Container,Form} from 'react-bootstrap'
 import Loader from '../Loader/Loader';
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import ButtonLoader from "../ButtonLoader/ButtonLoader"
 import {fetchProduct} from '../../redux/actions/productActions'
 import {addProductToCart} from '../../redux/actions/cartActions'
 const ProductDetails = ({match,history}) => {
@@ -33,7 +34,7 @@ const ProductDetails = ({match,history}) => {
   <Link className='btn btn-light my-3' to='/'>
    Go Back
   </Link>
-  {cartLoading?<Loader/>:cartError?(<ErrorMessage variant="danger">{cartError}</ErrorMessage>):null}
+  {/* {cartLoading?<Loader/>:cartError?(<ErrorMessage variant="danger">{cartError}</ErrorMessage>):null} */}
   {authLoading?<Loader/>:error?(<ErrorMessage variant="danger">{error}</ErrorMessage>):
   <Row>
   <Col md={6}>
@@ -45,7 +46,7 @@ const ProductDetails = ({match,history}) => {
   <h3>{product.name}</h3>
    </ListGroup.Item>
    <ListGroup.Item>
-    <Rating rating={product.rating} text={` ${product.numReviews} ratings`}/>
+    <Rating rating={product.rating} text={`${product.numReviews} ratings`}/>
    </ListGroup.Item>
    {/* <ListGroup.Item as="div">
    <div style={{fontWeight:"500",fontSize:"22px"}}>₹ {product.price} /-</div>
@@ -98,7 +99,16 @@ const ProductDetails = ({match,history}) => {
      )
     }
     <ListGroup.Item>
-     <button  disabled={product.countInStock === 0}  onClick={addToCart} className="btn-block p-2" style={{background:"#ff7043",fontSize:"18px",border:"none",color:"white"}} type="button">Add to Cart</button>
+     <button  disabled={product.countInStock === 0}  onClick={addToCart} className="btn-block" style={{background:"#ff7043",fontSize:"16px",border:"none",color:"white",fontWeight:'500',padding:'12px 20px'}} type="button">{!cartLoading?
+     <>
+      <i className='fas fa-shopping-cart'></i>
+      <span className='ml-4'> ADD TO CART</span>
+     </>:
+     <>
+     <ButtonLoader/>
+     <span className='ml-4'> GOING TO CART</span>
+     </>
+     }</button>
     </ListGroup.Item>
    </ListGroup>
   </Card>

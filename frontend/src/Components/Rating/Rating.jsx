@@ -33,7 +33,7 @@ const Rating = ({color,rating,text}) => {
 
   "fas fa-star-half-alt":
   "far fa-star"}></i>
-  <span style={{fontWeight:"500",color:"green"}}>{text && text}</span>
+  <span style={{fontWeight:"500",color:"green",float:'right'}}>{text && text}</span>
   </>
  )
 }
