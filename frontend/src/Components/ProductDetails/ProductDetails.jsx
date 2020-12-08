@@ -2,12 +2,14 @@ import React,{useEffect,useState} from 'react'
 import {useDispatch,useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
 import Rating from '../Rating/Rating'
+import AlertModal from '../AlertModal/AlertModal'
 import '../../App.scss'
 import {Row,Col,Image,Card, ListGroup,Container,Form} from 'react-bootstrap'
 import Loader from '../Loader/Loader';
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import ButtonLoader from "../ButtonLoader/ButtonLoader"
 import {fetchProduct} from '../../redux/actions/productActions'
+import {hideModal} from '../../redux/actions/cartActions'
 import {addProductToCart} from '../../redux/actions/cartActions'
 const ProductDetails = ({match,history}) => {
  const dispatch = useDispatch()
@@ -16,21 +18,28 @@ const ProductDetails = ({match,history}) => {
  const Cart= useSelector(state=>state.cart)
  const [qty, setQty] = useState(1)
  const {product,productLoading,error} =Products;
- const {cartLoading,cartError}=Cart;
+ const {cartLoading,cartError,showModal}=Cart;
  const {authLoading}=auth
  const addToCart=async()=>{
   await dispatch(addProductToCart(match.params.id,qty));
-  history.push(`/cart`)
+  // history.push(`/cart`)
  }
  useEffect(() => {
   async function getProduct(){
+   if(showModal){
+
+   }
   await dispatch(fetchProduct(match.params.id))
   }
   getProduct();
   console.log(product)
- }, [cartError])
+ }, [cartError,showModal])
  return (
   <>
+  <AlertModal show={showModal} onHide={() =>{
+   dispatch(hideModal())
+   history.push(`/cart`)
+  }}/>
   <Container>
   <Link className='btn btn-light my-3' to='/'>
    Go Back

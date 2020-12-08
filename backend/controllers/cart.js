@@ -35,6 +35,9 @@ exports.addToCart =asyncHandler(async (req,res,next)=>{
     const quantity=parseInt(req.body.qty)
    let updatedProduct= await Cart.findOneAndUpdate({user:req.currentUser.id,'cartItems.product':req.body.product},
    {$inc:{'cartItems.$.qty':productQuantity+quantity>stockCount?stockCount-productQuantity:quantity}})
-    res.json(updatedProduct);
+   if(productQuantity+quantity>stockCount)
+    res.json({message:"Product limit exceeded"});
+  else
+  res.json(updatedProduct)
    }
 })

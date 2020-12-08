@@ -3,12 +3,15 @@ import {
  FETCH_CART_FAIL,
  FETCH_CART_SUCCESS,
  ADD_TO_CART_FAIL,
- ADD_TO_CART_SUCCESS
+ ADD_TO_CART_SUCCESS,
+ SHOW_CART_MODAL,
+ HIDE_CART_MODAL
 } from "../actions/types"
 const initialState = {
  cartLoading: false,
  cart:[],
  cartError:'',
+ showModal:false
 }
 export default (state = initialState, action) => {
  switch (action.type) {
@@ -18,6 +21,18 @@ export default (state = initialState, action) => {
        cartLoading: true,
      }
    }
+   case SHOW_CART_MODAL:{
+     return {
+       ...state,
+       showModal:true
+     }
+   }
+   case HIDE_CART_MODAL:{
+    return {
+      ...state,
+      showModal:false
+    }
+  }
    case ADD_TO_CART_SUCCESS:{
     return {
       ...state,
