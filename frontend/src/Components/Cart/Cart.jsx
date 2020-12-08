@@ -8,7 +8,7 @@ import {Row,Col,Image,Card, ListGroup,Form,Button} from 'react-bootstrap'
 const Cart = () => {
  const dispatch = useDispatch()
  const auth = useSelector((state) => state.auth)
-  const {user} = auth
+  const {user,authLoading} = auth
  const Cart= useSelector(state=>state.cart)
  const {cartLoading,cartError,cart}=Cart;
  useEffect(() => {
@@ -20,7 +20,7 @@ const Cart = () => {
  return (
    <>
   {
-    cartLoading?
+    cartLoading && !authLoading?
     <div>
       <Loader/>
     </div>:
@@ -28,11 +28,11 @@ const Cart = () => {
   <Row className='d-flex justify-content-around'>
       <Col md={cart.length===0?12:7}>
         <h3 className='px-3'>My Cart</h3>
-        {cart.length === 0 ? (
+        {cart.length === 0 && !authLoading ? (
           <div className='mt-4 d-flex flex-column align-items-center justify-content-center'>
           <img src="./images/cart.png" className="mb-2"/>
           {
-            user?
+            user ?
             <p style={{fontSize:"18px"}}>
             Your cart is empty!</p>:
           <p style={{fontSize:"18px"}}>
@@ -61,7 +61,7 @@ const Cart = () => {
                     <Image src={item.product.image} alt={item.product.name} fluid rounded />
                   </Col>
                   <Col md={3} className='my-2'>
-                    <Link style={{textDecoration:"none",color:"black",fontWeight:"500"}} to={`/product/${item.product._id}`}>{item.product.name}</Link>
+                    <Link style={{textDecoration:"none",color:"black",fontWeight:"500"}} to={`/products/${item.product._id}`}>{item.product.name}</Link>
                   </Col>
                   <Col md={2} className='my-2'><p style={{fontWeight:"500",color:"#007185"}}>₹ {item.product.price.toLocaleString()}</p></Col>
                   <Col md={2} className='my-2'>

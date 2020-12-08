@@ -1,5 +1,6 @@
 import {
-SET_AUTH_LOADING,
+SET_PRODUCTS_LOADING,
+SET_PRODUCT_LOADING,
 FETCH_PRODUCTS_SUCCESS,
 FETCH_PRODUCTS_FAIL,
 FETCH_PRODUCT_FAIL,
@@ -11,7 +12,7 @@ export const fetchProduct=(id)=>{
  console.log(id);
  return async (dispatch)=>{
   try{
-   dispatch({type:SET_AUTH_LOADING})
+   dispatch({type:SET_PRODUCT_LOADING,payload:true})
    const response =await axios.get(`/api/v1/products/${id}`)
    console.log(response.data);
    dispatch({
@@ -29,7 +30,7 @@ export const fetchProduct=(id)=>{
 export const fetchProducts = () => {
  return async (dispatch) => {
    try {
-     dispatch({type:SET_AUTH_LOADING})
+     dispatch({type:SET_PRODUCTS_LOADING,payload:true})
      const response = await axios.get(FETCH_PRODUCTS_URL)
      dispatch({
        type: FETCH_PRODUCTS_SUCCESS,

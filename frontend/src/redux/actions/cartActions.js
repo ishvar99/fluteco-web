@@ -27,7 +27,7 @@ import {
  }
  export const fetchCart = () => {
   return async (dispatch) => {
-    // try {
+    try {
       dispatch({type:SET_CART_LOADING})
       const response = await axios.get(CART_URL)
       console.log(response)
@@ -36,15 +36,15 @@ import {
         payload: response.data,
       })
     } 
-  //   catch (err) {
-  //     console.log(err)
-  //    console.log(err.response.data)
-  //     dispatch({
-  //       type: FETCH_CART_FAIL,
-  //       payload: err.response && err.response.data.error?err.response.data.error:err.message,
-  //     })
-  //   }
-  // }
+    catch (err) {
+      console.log(err)
+     console.log(err.response.data)
+      dispatch({
+        type: FETCH_CART_FAIL,
+        payload: err.response && err.response.data.error?err.response.data.error:err.message,
+      })
+    }
+  }
  }
  
  

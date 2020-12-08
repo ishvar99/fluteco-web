@@ -12,13 +12,14 @@ import {addProductToCart} from '../../redux/actions/cartActions'
 const ProductDetails = ({match,history}) => {
  const dispatch = useDispatch()
  const Products =useSelector(state=>state.products);
+ const auth =useSelector(state=>state.auth);
  const Cart= useSelector(state=>state.cart)
  const [qty, setQty] = useState(1)
- const {product,authLoading,error} =Products;
+ const {product,productLoading,error} =Products;
  const {cartLoading,cartError}=Cart;
+ const {authLoading}=auth
  const addToCart=async()=>{
   await dispatch(addProductToCart(match.params.id,qty));
-
   history.push(`/cart`)
  }
  useEffect(() => {
@@ -35,7 +36,7 @@ const ProductDetails = ({match,history}) => {
    Go Back
   </Link>
   {/* {cartLoading?<Loader/>:cartError?(<ErrorMessage variant="danger">{cartError}</ErrorMessage>):null} */}
-  {authLoading?<Loader/>:error?(<ErrorMessage variant="danger">{error}</ErrorMessage>):
+  {productLoading && !authLoading?<Loader/>:error?(<ErrorMessage variant="danger">{error}</ErrorMessage>):authLoading?null:
   <Row>
   <Col md={6}>
   <Image src={product.image} alt={product.name} fluid/>
@@ -88,10 +89,13 @@ const ProductDetails = ({match,history}) => {
        Qty:
       </Col>
       <Col>
+      {/* <input type="text" list="data" onChange={(e)=>setQty(e.target.value)} /> */}
+      {/* <datalist> */}
       <Form.Control as='select' value={qty} onChange={(e)=>setQty(e.target.value)} >
        {[...Array(product.countInStock).keys()]
        .map(v=><option key={v+1} value={v+1}>{v+1}</option>)
        }
+       {/* </datalist> */}
       </Form.Control>
       </Col>
      </Row>
