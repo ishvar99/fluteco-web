@@ -9,7 +9,6 @@ import Loader from '../Loader/Loader';
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import ButtonLoader from "../ButtonLoader/ButtonLoader"
 import {fetchProduct} from '../../redux/actions/productActions'
-import {hideModal} from '../../redux/actions/cartActions'
 import {addProductToCart} from '../../redux/actions/cartActions'
 const ProductDetails = ({match,history}) => {
  const dispatch = useDispatch()
@@ -18,7 +17,7 @@ const ProductDetails = ({match,history}) => {
  const Cart= useSelector(state=>state.cart)
  const [qty, setQty] = useState(1)
  const {product,productLoading,error} =Products;
- const {cartLoading,cartError,showModal}=Cart;
+ const {cartLoading,cartError,showModal,redirect}=Cart;
  const {authLoading}=auth
  const addToCart=async()=>{
   await dispatch(addProductToCart(match.params.id,qty));
@@ -26,18 +25,19 @@ const ProductDetails = ({match,history}) => {
  }
  useEffect(() => {
   async function getProduct(){
-   if(showModal){
-
+   if(!showModal&&!cartError&&redirect){
+    dispatch({type:'UNSET_REDIRECT'})
+    history.push('/cart')
    }
   await dispatch(fetchProduct(match.params.id))
   }
   getProduct();
-  console.log(product)
- }, [cartError,showModal])
+
+ }, [cartError,showModal,redirect])
  return (
   <>
   <AlertModal show={showModal} onHide={() =>{
-   dispatch(hideModal())
+   dispatch({type:'HIDE_CART_MODAL'})
    history.push(`/cart`)
   }}/>
   <Container>

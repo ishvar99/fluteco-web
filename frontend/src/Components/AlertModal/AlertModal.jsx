@@ -4,25 +4,22 @@ const AlertModal = (props) => {
  return (
   <Modal
   {...props}
-  size="lg"
   aria-labelledby="contained-modal-title-vcenter"
   centered
 >
-  <Modal.Header closeButton>
+  <Modal.Header>
     <Modal.Title id="contained-modal-title-vcenter">
-      Modal heading
+      Stock Limit Exceeded
     </Modal.Title>
   </Modal.Header>
   <Modal.Body>
-    <h4>Centered Modal</h4>
     <p>
-      Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-      dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-      consectetur ac, vestibulum at eros.
+    Sorry, you have reached the stock limit of this product.
+    We have updated your quantity to the maximum possible limit.
     </p>
   </Modal.Body>
   <Modal.Footer>
-    <Button onClick={props.onHide}>Close</Button>
+    <Button style={{background:'#ff7043',border:'none',boxShadow:'none'}} onClick={props.onHide}>Close</Button>
   </Modal.Footer>
 </Modal>
 );

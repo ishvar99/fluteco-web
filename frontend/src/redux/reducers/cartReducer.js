@@ -5,13 +5,15 @@ import {
  ADD_TO_CART_FAIL,
  ADD_TO_CART_SUCCESS,
  SHOW_CART_MODAL,
- HIDE_CART_MODAL
+ HIDE_CART_MODAL,
+ UNSET_REDIRECT
 } from "../actions/types"
 const initialState = {
  cartLoading: false,
  cart:[],
  cartError:'',
- showModal:false
+ showModal:false,
+ redirect:false
 }
 export default (state = initialState, action) => {
  switch (action.type) {
@@ -37,7 +39,14 @@ export default (state = initialState, action) => {
     return {
       ...state,
       cartLoading:false,
+      redirect:true
     }
+   }
+   case UNSET_REDIRECT:{
+     return {
+       ...state,
+       redirect:false
+     }
    }
    case ADD_TO_CART_FAIL:{
     return {

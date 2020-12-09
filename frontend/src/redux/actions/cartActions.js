@@ -3,7 +3,6 @@ import {
  ADD_TO_CART_SUCCESS,
  ADD_TO_CART_FAIL,
  SHOW_CART_MODAL,
- HIDE_CART_MODAL,
  FETCH_CART_SUCCESS,
  FETCH_CART_FAIL
  } from "./types"
@@ -16,7 +15,6 @@ import {
     const response =await axios.post(CART_URL,JSON.stringify({product:productId,qty:quantity}))
     console.log(response.data);
     if(response.data.message==='Product limit exceeded'){
-      console.log('hello')
       dispatch({
         type:SHOW_CART_MODAL,
         payload:response.data
@@ -32,11 +30,6 @@ import {
     })
    }
   }
- }
- export const hideModal=()=>{
-   return async(dispatch)=>{
-     dispatch({type:HIDE_CART_MODAL})
-   }
  }
  export const fetchCart = () => {
   return async (dispatch) => {
