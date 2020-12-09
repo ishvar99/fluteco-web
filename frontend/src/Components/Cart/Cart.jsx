@@ -1,8 +1,9 @@
-import React,{useEffect} from 'react'
+import React,{useEffect,useState} from 'react'
 import {useDispatch,useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
 import '../../App.scss'
 import {fetchCart} from '../../redux/actions/cartActions'
+import {removeProductFromCart} from '../../redux/actions/cartActions'
 import Loader from '../../Components/Loader/Loader'
 import {Row,Col,Image,Card, ListGroup,Form,Button} from 'react-bootstrap'
 const Cart = () => {
@@ -10,25 +11,47 @@ const Cart = () => {
  const auth = useSelector((state) => state.auth)
   const {user,authLoading} = auth
  const Cart= useSelector(state=>state.cart)
+ const specialDiscountLimit=2500;
+ const deliveryChargeLimit=499;
  const {cartLoading,cartError,cart}=Cart;
+ const [totalPrice, setTotalPrice] = useState(0)
+ const [totalUnits,setTotalUnits]=useState(0)
+ const [specialDiscount,setSpecialDiscount]=useState(0)
+ const [deliveryPrice,setDeliveryPrice]=useState(0)
+ const removeFromCart=async (productId)=>{
+await dispatch(removeProductFromCart(productId));
+ }
  useEffect(() => {
+   
   const getCart =async()=>{
     await dispatch(fetchCart())
   }
   getCart();
  }, [])
+ useEffect(() => {
+  if(!cartLoading && cart && Object.keys(cart).length !== 0 ){
+    console.log(cart);
+    const _units=cart.cartItems.reduce((acc, item) => acc + item.qty, 0);
+    const _price=cart.cartItems.reduce((acc, item) => acc + item.qty * item.product.price, 0);
+   setTotalUnits(_units)
+   setTotalPrice(_price)
+   const discountFactor=_price*0.1;
+   setSpecialDiscount(discountFactor>=specialDiscountLimit?specialDiscountLimit:discountFactor)
+   setDeliveryPrice(_price>=deliveryChargeLimit?0:40)
+  }
+ }, [cartLoading,cart])
  return (
    <>
   {
-    cartLoading && !authLoading?
+  cartLoading && !authLoading?
     <div>
       <Loader/>
     </div>:
    <div style={{margin:"5% 10%"}}>
   <Row className='d-flex justify-content-around'>
-      <Col md={cart.length===0?12:7}>
+      <Col md={cart && cart?7:12}>
         <h3 className='px-3'>My Cart</h3>
-        {cart.length === 0 && !authLoading ? (
+        {cart && Object.keys(cart).length === 0 && !authLoading ? (
           <div className='mt-4 d-flex flex-column align-items-center justify-content-center'>
           <img src="./images/cart.png" className="mb-2"/>
           {
@@ -53,7 +76,7 @@ const Cart = () => {
           </div>
         ) : (
           <ListGroup variant='flush'>
-            {cart.map((i) => i.cartItems.map((item)=>
+            {cart && cart.cartItems.map((item)=>
               (
               <ListGroup.Item key={item.product._id}>
                 <Row className='my-2'>
@@ -86,19 +109,19 @@ const Cart = () => {
                     <Button
                       className="p-0 m-0"
                      style={{background:"white",color:'red',border:'none'}}
-                      onClick={() => console.log('Remove')}
+                      onClick={()=>removeFromCart(item.product._id)}
                     >
                      <i className='fas fa-trash'></i>
                     </Button>
                   </Col>
                 </Row>
               </ListGroup.Item>
-            )))}
+            ))}
           </ListGroup>
         )}
       </Col>
       {
-        cart.length>0&&
+        cart && Object.keys(cart).length !== 0 &&
       <Col md={4} className='my-4'>
         <Card>
           <ListGroup variant='flush'>
@@ -108,21 +131,13 @@ const Cart = () => {
               </h4>
               </ListGroup.Item>
               <ListGroup.Item className='my-2'>
-              <p>Price ({cart.map((i)=>i.cartItems.reduce((acc, item) => acc + item.qty, 0))} items)
-              <span style={{float:"right"}}>₹ {cart.map((i)=>i.cartItems
-                .reduce((acc, item) => acc + item.qty * item.product.price, 0)
-              ).toLocaleString()}
+              <p>Price ({totalUnits} items)
+              <span style={{float:"right"}}>₹ {totalPrice.toLocaleString()}
                 </span> </p>
-              <p>Discount (Inaugural Offer) <span style={{float:"right",color:'green'}}>− ₹ {(cart.map((i)=>i.cartItems
-                .reduce((acc, item) => acc + item.qty * item.product.price, 0)
-              )*0.1).toLocaleString()}</span></p>
-              <p>Delivery <span style={{float:"right",color:"green",fontWeight:'500'}}> {cart.map((i)=>i.cartItems
-                .reduce((acc, item) => acc + item.qty * item.product.price, 0)
-              )>=499 ? "FREE" :"₹ 50"}</span></p>
+              <p>Discount<span style={{color:'red',fontWeight:'500'}}>*</span> (Inaugural Offer) <span style={{float:"right",color:'green'}}>− ₹ {specialDiscount.toLocaleString()}</span></p>
+              <p>Delivery <span style={{float:"right",color:"green",fontWeight:'500'}}>  {deliveryPrice===0?"FREE":`₹ ${deliveryPrice.toLocaleString()}`}</span></p>
               <br/>
-              <p style={{fontWeight:"500",fontSize:"18px"}}>Total Amount<span style={{float:"right",fontWeight:'500'}}>₹ {(cart.map((i)=>i.cartItems
-                .reduce((acc, item) => acc + item.qty * item.product.price, 0)
-              )*0.9).toLocaleString()}</span></p>
+              <p style={{fontWeight:"500",fontSize:"18px"}}>Total Amount<span style={{float:"right",fontWeight:'500'}}>₹ {(totalPrice-specialDiscount+deliveryPrice).toLocaleString()}</span></p>
             </ListGroup.Item>
             <ListGroup.Item>
               <Button

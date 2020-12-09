@@ -6,11 +6,13 @@ import {
  ADD_TO_CART_SUCCESS,
  SHOW_CART_MODAL,
  HIDE_CART_MODAL,
- UNSET_REDIRECT
+ UNSET_REDIRECT,
+ REMOVE_FROM_CART_SUCCESS,
+ REMOVE_FROM_CART_FAIL
 } from "../actions/types"
 const initialState = {
  cartLoading: false,
- cart:[],
+ cart:null,
  cartError:'',
  showModal:false,
  redirect:false
@@ -42,13 +44,21 @@ export default (state = initialState, action) => {
       redirect:true
     }
    }
+   case REMOVE_FROM_CART_SUCCESS:{
+     return {
+       ...state,
+       cartLoading:false,
+       cart:action.payload
+     }
+   }
    case UNSET_REDIRECT:{
      return {
        ...state,
        redirect:false
      }
    }
-   case ADD_TO_CART_FAIL:{
+   case ADD_TO_CART_FAIL:
+     case REMOVE_FROM_CART_FAIL:{
     return {
       ...state,
       cartLoading:false,
@@ -56,6 +66,7 @@ export default (state = initialState, action) => {
     }
    }
    case FETCH_CART_SUCCESS:{
+     console.log(action.payload);
     return {
       ...state,
       cartLoading:false,

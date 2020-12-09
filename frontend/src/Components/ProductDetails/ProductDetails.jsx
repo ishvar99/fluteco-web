@@ -21,7 +21,6 @@ const ProductDetails = ({match,history}) => {
  const {authLoading}=auth
  const addToCart=async()=>{
   await dispatch(addProductToCart(match.params.id,qty));
-  // history.push(`/cart`)
  }
  useEffect(() => {
   async function getProduct(){
