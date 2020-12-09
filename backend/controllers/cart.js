@@ -49,6 +49,14 @@ exports.removeFromCart=asyncHandler(async (req,res,next)=>{
   let updatedCart=await Cart.findOneAndUpdate({user:req.currentUser.id},{
     "$pull":{"cartItems":{"product":req.body.product}}
   },{new:true}).populate('cartItems.product').exec();
+  res.json(updatedCart)
+})
+
+exports.updateCart=asyncHandler(async (req,res,next)=>{
+  let updatedCart=await 
+  Cart.findOneAndUpdate({user:req.currentUser.id,'cartItems.product':req.body.product},
+   {'$set':{'cartItems.$.qty':req.body.qty}},{new:true,useFindAndModify:false})
+  .populate('cartItems.product').exec();
   console.log(updatedCart)
   res.json(updatedCart)
 })

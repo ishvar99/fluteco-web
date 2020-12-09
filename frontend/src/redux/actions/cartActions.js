@@ -6,7 +6,9 @@ import {
  FETCH_CART_SUCCESS,
  FETCH_CART_FAIL,
  REMOVE_FROM_CART_FAIL,
- REMOVE_FROM_CART_SUCCESS
+ REMOVE_FROM_CART_SUCCESS,
+ UPDATE_CART_SUCCESS,
+ UPDATE_CART_FAIL
  } from "./types"
  import axios from "axios"
  const CART_URL='/api/v1/cart'
@@ -37,7 +39,7 @@ import {
   return async (dispatch)=>{
    try{
     dispatch({type:SET_CART_LOADING})
-    const response =await axios.put(`${CART_URL}`,JSON.stringify({product:productId}))
+    const response =await axios.put(CART_URL,JSON.stringify({product:productId}))
     console.log(response.data);
     dispatch({
      type: REMOVE_FROM_CART_SUCCESS,
@@ -51,6 +53,26 @@ import {
    }
   }
  }
+
+ export const updateQuantityCart=(productId,quantity)=>{
+  return async (dispatch)=>{
+   try{
+    dispatch({type:SET_CART_LOADING})
+    const response =await axios.put(`${CART_URL}/quantity`,JSON.stringify({product:productId,qty:quantity}))
+    console.log(response.data);
+    dispatch({
+     type: UPDATE_CART_SUCCESS,
+     payload:response.data
+   })
+   }catch(err){
+    dispatch({
+     type:UPDATE_CART_FAIL,
+     payload:err.response && err.response.data.error?err.response.data.error:err.message
+    })
+   }
+  }
+ }
+
  export const fetchCart = () => {
   return async (dispatch) => {
     try {

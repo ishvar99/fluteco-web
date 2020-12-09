@@ -6,6 +6,7 @@ import {fetchCart} from '../../redux/actions/cartActions'
 import {removeProductFromCart} from '../../redux/actions/cartActions'
 import Loader from '../../Components/Loader/Loader'
 import {Row,Col,Image,Card, ListGroup,Form,Button} from 'react-bootstrap'
+import {updateQuantityCart} from '../../redux/actions/cartActions'
 const Cart = () => {
  const dispatch = useDispatch()
  const auth = useSelector((state) => state.auth)
@@ -92,7 +93,7 @@ await dispatch(removeProductFromCart(productId));
                      as='select'
                       value={item.qty}
                       onChange={(e)=>{
-                       console.log('Update Quantity')
+                       dispatch(updateQuantityCart(item.product._id,e.target.value))
                       } 
                       }
                     >

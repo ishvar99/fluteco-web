@@ -37,6 +37,7 @@ const ProductDetails = ({match,history}) => {
   <>
   <AlertModal show={showModal} onHide={() =>{
    dispatch({type:'HIDE_CART_MODAL'})
+   dispatch({type:'UNSET_REDIRECT'})
    history.push(`/cart`)
   }}/>
   <Container>

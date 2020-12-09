@@ -8,7 +8,9 @@ import {
  HIDE_CART_MODAL,
  UNSET_REDIRECT,
  REMOVE_FROM_CART_SUCCESS,
- REMOVE_FROM_CART_FAIL
+ REMOVE_FROM_CART_FAIL,
+ UPDATE_CART_SUCCESS,
+ UPDATE_CART_FAIL
 } from "../actions/types"
 const initialState = {
  cartLoading: false,
@@ -44,7 +46,8 @@ export default (state = initialState, action) => {
       redirect:true
     }
    }
-   case REMOVE_FROM_CART_SUCCESS:{
+   case REMOVE_FROM_CART_SUCCESS:
+     case UPDATE_CART_SUCCESS:{
      return {
        ...state,
        cartLoading:false,
@@ -58,7 +61,8 @@ export default (state = initialState, action) => {
      }
    }
    case ADD_TO_CART_FAIL:
-     case REMOVE_FROM_CART_FAIL:{
+     case REMOVE_FROM_CART_FAIL:
+       case UPDATE_CART_FAIL:{
     return {
       ...state,
       cartLoading:false,
