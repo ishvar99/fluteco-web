@@ -29,7 +29,7 @@ await dispatch(removeProductFromCart(productId));
   getCart();
  }, [])
  useEffect(() => {
-  if(!cartLoading && cart && Object.keys(cart).length !== 0 ){
+  if(!cartLoading && cart && Object.keys(cart).length !== 0){
     console.log(cart);
     const _units=cart.cartItems.reduce((acc, item) => acc + item.qty, 0);
     const _price=cart.cartItems.reduce((acc, item) => acc + item.qty * item.product.price, 0);
@@ -49,9 +49,9 @@ await dispatch(removeProductFromCart(productId));
     </div>:
    <div style={{margin:"5% 10%"}}>
   <Row className='d-flex justify-content-around'>
-      <Col md={cart && cart?7:12}>
+      <Col md={7}>
         <h3 className='px-3'>My Cart</h3>
-        {cart && Object.keys(cart).length === 0 && !authLoading ? (
+        {cart && ( (cart.cartItems && cart.cartItems.length===0) || Object.keys(cart).length === 0 ) && !authLoading ? (
           <div className='mt-4 d-flex flex-column align-items-center justify-content-center'>
           <img src="./images/cart.png" className="mb-2"/>
           {
@@ -121,7 +121,7 @@ await dispatch(removeProductFromCart(productId));
         )}
       </Col>
       {
-        cart && Object.keys(cart).length !== 0 &&
+        cart && cart.cartItems&& cart.cartItems.length!==0 && Object.keys(cart).length !== 0 &&
       <Col md={4} className='my-4'>
         <Card>
           <ListGroup variant='flush'>
