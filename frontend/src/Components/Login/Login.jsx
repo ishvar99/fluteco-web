@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
-
+import {Form,Button,Row,Col,Container} from 'react-bootstrap'
 import { Link } from "react-router-dom"
 import { LoginUser } from "../../redux/actions/authActions"
 import { ClearError } from "../../redux/actions/authActions"
@@ -70,88 +70,65 @@ const Login = (props) => {
     })
   }, [])
   return (
-    <>
-      <div className="Form">
-        <form noValidate onSubmit={handleFormSubmit}>
+    <Container style={{marginTop:'20vh'}}>
+    <Row className='justify-content-md-center w-100 m-0'>
+      <Col xs={12} md={5}>
+      <Form noValidate onSubmit={handleFormSubmit}>
+      <h3 className='text-center'>Login</h3>
           {errorMsg.status ? (
             <div
-              className={` error-div text-${errorMsg.color}`}
-              style={{ textAlign: "center" }}
+              className={` w-75 mx-auto alert text-center alert-danger alert-dismissible fade show text-${errorMsg.color}`}
             >
               <h6>{errorMsg.msg}</h6>
-              <span
-                onClick={() =>
-                  seterrorMsg({ status: false, color: "", msg: "" })
-                }
-              >
-                x
-              </span>
+              <button type="button"  onClick={() =>
+                  seterrorMsg({ status: false, color: "", msg: "" })} class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
             </div>
           ) : null}
 
-          <h3>Login</h3>
-
-          <div className="form-group">
-            <label>Email address</label>
-            <input
+          <Form.Group>
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
               type="email"
               name="email"
               value={inputvalue.email}
               onChange={handleChange}
             />
-          </div>
+          </Form.Group>
 
-          <div className="form-group">
-            <label>Password</label>
-            <input
+          <Form.Group>
+            <Form.Label>Password</Form.Label>
+            <Form.Control
               type="password"
               name="password"
               value={inputvalue.password}
               onChange={handleChange}
             />
-          </div>
-          <div className="row-div">
-            <div className="check-box-group ">
-              <input type="checkbox" />
-              <h6 className="">Remember me</h6>
-            </div>
+          </Form.Group>
+          <div>
             <Link
-              to="/password_reset"
-              style={{
-                textDecoration: "none",
-                color: "black",
-                fontSize: "14px",
-              }}
-            >
-              <h6 className="forgot-password">Forgot password</h6>
+              to="/password_reset" >
+              <h6 className="forgot-password">Forgot password?</h6>
             </Link>
           </div>
-
-          <button variant="primary" type="submit">
+          <div className="mx-auto text-center">
+          <button className='btn w-25' style={{background:'#ff7043',color:'white',textAlign:'center'}} type="submit">
             Login
           </button>
-          <p className="text-muted">
-            By continuing, you agree to the Terms and Conditions of Use and
-            Privacy Notice.
-          </p>
-          <hr />
-          <div className="part-2">
-            <p>New user!</p>
-            <Link
-              style={{
-                textDecoration: "none",
-                color: "black",
-
-                fontSize: "14px",
-              }}
-              to="/register"
-            >
-              <p>Create an account!</p>
-            </Link>
           </div>
-        </form>
-      </div>
-    </>
+          <Row className='py-3'>
+        <Col className='text-center'> 
+          I don't have an account?{" "}
+          <Link style={{fontWeight:'500'}} to={'/register'}>
+            Register
+          </Link>
+        </Col>
+      </Row>
+      </Form>
+      </Col>
+      </Row>
+    </Container>
   )
 }
 

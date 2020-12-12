@@ -113,41 +113,7 @@ $navbar-color: #ff7043;
       font-size: 12px;
       font-weight: 500;
     }
-    .error-div {
-      border: 2px solid $error-danger;
-      border-radius: 5px;
-      padding: 5px 10px;
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      h6 {
-        font-size: 14px;
-        text-align: center;
-        margin: auto;
-      }
-      span {
-        font-size: 14px;
-        font-weight: 700;
-        cursor: pointer;
-      }
-    }
-    .success-div {
-      border: 2px solid $success-color;
-      border-radius: 5px;
-      padding: 5px 10px;
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: space-between;
-      h6 {
-        font-size: 14px;
-        margin: 2px 0;
-      }
-      span {
-        font-size: 14px;
-        font-weight: 700;
-        cursor: pointer;
-      }
-    }
+
     .part-2 {
       display: flex;
       flex-direction: row;
